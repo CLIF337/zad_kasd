@@ -1,0 +1,8 @@
+C:\Users\Aleksandr\source\repos\zad1kasd\zad1kasd\bin\Debug\zad1kasd.exe.config
+C:\Users\Aleksandr\source\repos\zad1kasd\zad1kasd\bin\Debug\zad1kasd.exe
+C:\Users\Aleksandr\source\repos\zad1kasd\zad1kasd\bin\Debug\zad1kasd.pdb
+C:\Users\Aleksandr\source\repos\zad1kasd\zad1kasd\obj\Debug\zad1kasd.csproj.AssemblyReference.cache
+C:\Users\Aleksandr\source\repos\zad1kasd\zad1kasd\obj\Debug\zad1kasd.csproj.CoreCompileInputs.cache
+C:\Users\Aleksandr\source\repos\zad1kasd\zad1kasd\obj\Debug\zad1kasd.exe
+C:\Users\Aleksandr\source\repos\zad1kasd\zad1kasd\obj\Debug\zad1kasd.pdb
+C:\Users\Aleksandr\source\repos\zad1kasd\zad1kasd\obj\Debug\zad1kasd.exe.config

@@ -1,119 +1,120 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-
-public delegate int PriorityQueueComparer<T>(T x, T y);
 
 public class MyPriorityQueue<T>
 {
-    private T[] queue;
-    private int size;
-    private PriorityQueueComparer<T> comparator;
-
+    private T[] items;
+    private int count;
+    private IComparer<T> comparer;
     public MyPriorityQueue()
     {
-        queue = new T[11 + 1];
-        size = 0;
-        comparator = null;
+        items = new T[11];
+        comparer = Comparer<T>.Default;
     }
-    public MyPriorityQueue(T[] a)
+    public MyPriorityQueue(T[] array)
     {
-        if (a == null) throw new ArgumentNullException("Массив не может быть null");
-        queue = new T[a.Length + 1 + 11];
-        size = a.Length;
-        comparator = null;
-        for (int i = 0; i < a.Length; i++)
+        if (array == null)
         {
-            queue[i + 1] = a[i];
+            throw new ArgumentNullException(nameof(array));
         }
-        MakeHeap();
+        items = new T[array.Length];
+        Array.Copy(array, items, array.Length);
+        count = array.Length;
+        comparer = Comparer<T>.Default;
+        Heapify();
     }
-    public MyPriorityQueue(int initialCapacity)
+    public MyPriorityQueue(int nach_emk)
     {
-        if (initialCapacity < 1) throw new ArgumentException("Емкость должна быть больше 0");
-        queue = new T[initialCapacity + 1];
-        size = 0;
-        comparator = null;
-    }
-    public MyPriorityQueue(int initialCapacity, PriorityQueueComparer<T> comparator)
-    {
-        if (initialCapacity < 1) throw new ArgumentException("Емкость должна быть больше 0");
-        queue = new T[initialCapacity + 1];
-        size = 0;
-        this.comparator = comparator;
-    }
-
-    public MyPriorityQueue(MyPriorityQueue<T> other)
-    {
-        if (other == null) throw new ArgumentNullException("Очередь не может быть null");
-        this.size = other.size;
-        this.comparator = other.comparator;
-        this.queue = new T[other.queue.Length];
-        for (int i = 0; i < other.queue.Length; i++)
+        if (nach_emk < 1)
         {
-            this.queue[i] = other.queue[i];
+            throw new ArgumentOutOfRangeException(nameof(nach_emk));
+        }
+        items = new T[nach_emk];
+        comparer = Comparer<T>.Default;
+    }
+    public MyPriorityQueue(int initialCapacity, IComparer<T> comparer)
+    {
+        if (initialCapacity < 1)
+        {
+            throw new ArgumentOutOfRangeException(nameof(initialCapacity));
+        }
+        items = new T[initialCapacity];
+        if (comparer == null)
+        {
+            this.comparer = Comparer<T>.Default;
+        }
+        else
+        {
+            this.comparer = comparer;
         }
     }
-    public void Add(T e)
+    public MyPriorityQueue(MyPriorityQueue<T> queue)
     {
-        if (e == null) throw new ArgumentNullException("Элемент не может быть null");
-        if (size + 1 >= queue.Length)
+        if (queue == null)
         {
-            int newSize;
-            if (queue.Length < 64)
-            {
-                newSize = queue.Length * 2;
-            }
-            else
-            {
-                newSize = queue.Length + (queue.Length / 2);
-            }
-            T[] newQueue = new T[newSize];
-            for (int i = 0; i < queue.Length; i++)
-            {
-                newQueue[i] = queue[i];
-            }
-            queue = newQueue;
+            throw new ArgumentNullException(nameof(queue));
         }
-        size++;
-        queue[size] = e;
-        Swim(size);
+        items = new T[queue.items.Length];
+        Array.Copy(queue.items, items, queue.count);
+        count = queue.count;
+        comparer = queue.comparer;
     }
-    public void AddAll(T[] a)
+    public void Add(T item)
     {
-        if (a == null) throw new ArgumentNullException("Массив не может быть null");
-
-        foreach (T item in a)
+        if (item == null)
         {
-            Add(item);
+            throw new ArgumentNullException(nameof(item));
+        }
+        EnsureCapacity(count + 1);
+        items[count] = item;
+        SiftUp(count);
+        count++;
+    }
+    public void AddAll(T[] array)
+    {
+        if (array == null)
+        {
+            throw new ArgumentNullException(nameof(array));
+        }
+        EnsureCapacity(count + array.Length);
+        foreach (var element in array)
+        {
+            if (element == null)
+            {
+                throw new ArgumentException("Array contains null");
+            }
+            items[count] = element;
+            SiftUp(count);
+            count++;
         }
     }
     public void Clear()
     {
-        for (int i = 1; i <= size; i++)
-        {
-            queue[i] = default(T);
-        }
-        size = 0;
+        Array.Clear(items, 0, count);
+        count = 0;
     }
-    public bool Contains(object o)
+    public bool Contains(object obj)
     {
-        if (o == null) return false;
-
-        for (int i = 1; i <= size; i++)
+        if (obj == null)
         {
-            if (queue[i] != null && queue[i].Equals(o))
+            throw new ArgumentNullException(nameof(obj));
+        }
+        for (int i = 0; i < count; i++)
+        {
+            if (EqualityComparer<T>.Default.Equals((T)obj, items[i]))
             {
                 return true;
             }
         }
         return false;
     }
-    public bool ContainsAll(T[] a)
+    public bool ContainsAll(T[] array)
     {
-        if (a == null) throw new ArgumentNullException("Массив не может быть null");
-
-        foreach (T item in a)
+        if (array == null)
+        {
+            throw new ArgumentNullException(nameof(array));
+        }
+        foreach (var item in array)
         {
             if (!Contains(item))
             {
@@ -124,50 +125,48 @@ public class MyPriorityQueue<T>
     }
     public bool IsEmpty()
     {
-        return size == 0;
+        return count == 0;
     }
-    public bool Remove(object o)
+    public bool Remove(object obj)
     {
-        if (o == null) return false;
-        int index = -1;
-        for (int i = 1; i <= size; i++)
+        if (obj == null)
         {
-            if (queue[i] != null && queue[i].Equals(o))
+            throw new ArgumentNullException(nameof(obj));
+        }
+        for (int i = 0; i < count; i++)
+        {
+            if (EqualityComparer<T>.Default.Equals((T)obj, items[i]))
             {
-                index = i;
-                break;
+                RemoveAt(i);
+                return true;
             }
         }
-        if (index == -1) return false;
-        queue[index] = queue[size];
-        queue[size] = default(T);
-        size--;
-        if (index <= size)
-        {
-            Sink(index);
-            Swim(index);
-        }
-        return true;
+        return false;
     }
-    public void RemoveAll(T[] a)
+    public void RemoveAll(T[] array)
     {
-        if (a == null) throw new ArgumentNullException("Массив не может быть null");
-
-        foreach (T item in a)
+        if (array == null)
         {
-            Remove(item);
+            throw new ArgumentNullException(nameof(array));
+        }
+        foreach (var item in array)
+        {
+            while (Remove(item)) { }
         }
     }
-    public void RetainAll(T[] a)
+    public void RetainAll(T[] array)
     {
-        if (a == null) throw new ArgumentNullException("Массив не может быть null");
-        MyPriorityQueue<T> temp = new MyPriorityQueue<T>(size, comparator);
-        for (int i = 1; i <= size; i++)
+        if (array == null)
+        {
+            throw new ArgumentNullException(nameof(array));
+        }
+        var temp = new List<T>();
+        for (int i = 0; i < count; i++)
         {
             bool found = false;
-            foreach (T item in a)
+            foreach (var element in array)
             {
-                if (queue[i] != null && queue[i].Equals(item))
+                if (EqualityComparer<T>.Default.Equals(element, items[i]))
                 {
                     found = true;
                     break;
@@ -175,52 +174,49 @@ public class MyPriorityQueue<T>
             }
             if (found)
             {
-                temp.Add(queue[i]);
+                temp.Add(items[i]);
             }
         }
-        this.size = temp.size;
-        for (int i = 0; i < temp.queue.Length; i++)
+        Clear();
+        foreach (var item in temp)
         {
-            this.queue[i] = temp.queue[i];
+            Add(item);
         }
     }
     public int Size()
     {
-        return size;
+        return count;
     }
     public T[] ToArray()
     {
-        T[] result = new T[size];
-        for (int i = 0; i < size; i++)
-        {
-            result[i] = queue[i + 1];
-        }
+        var result = new T[count];
+        Array.Copy(items, result, count);
         return result;
     }
-    public T[] ToArray(T[] a)
+    public T[] ToArray(T[] array)
     {
-        if (a == null)
+        if (array == null)
         {
             return ToArray();
         }
-        if (a.Length < size)
+        if (array.Length < count)
         {
             return ToArray();
         }
-        for (int i = 0; i < size; i++)
+        Array.Copy(items, array, count);
+        if (array.Length > count)
         {
-            a[i] = queue[i + 1];
+            array[count] = default(T);
         }
-        if (a.Length > size)
-        {
-            a[size] = default(T);
-        }
-        return a;
+        return array;
     }
     public T Element()
     {
-        if (size == 0) throw new InvalidOperationException("Очередь пуста");
-        return queue[1];
+        if (count == 0)
+        {
+            throw new InvalidOperationException("Queue is empty");
+        }
+        return items[0];
     }
     public bool Offer(T obj)
     {
@@ -236,136 +232,132 @@ public class MyPriorityQueue<T>
     }
     public T Peek()
     {
-        if (size == 0) return default(T);
-        return queue[1];
+        if (count == 0)
+        {
+            return default(T);
+        }
+        else
+        {
+            return items[0];
+        }
     }
     public T Poll()
     {
-        if (size == 0) return default(T);
-        T result = queue[1];
-        queue[1] = queue[size];
-        queue[size] = default(T);
-        size--;
-        if (size > 0)
+        if (count == 0)
         {
-            Sink(1);
+            return default(T);
         }
-
+        T result = items[0];
+        RemoveAt(0);
         return result;
     }
-    private void MakeHeap()
+    private void Heapify()
     {
-        for (int i = size / 2; i >= 1; i--)
+        for (int i = (count - 1) / 2; i >= 0; i--)
         {
-            Sink(i);
+            SiftDown(i);
         }
     }
+    private void SiftUp(int idx)
+    {
+        T x = items[idx];
+        while (idx > 0)
+        {
+            int parent = (idx - 1) / 2;
+            if (comparer.Compare(x, items[parent]) >= 0)
+            {
+                break;
+            }
+            items[idx] = items[parent];
+            idx = parent;
+        }
+        items[idx] = x;
+    }
+    private void SiftDown(int idx)
+    {
+        T x = items[idx];
+        while (idx * 2 + 1 < count)
+        {
+            int child = idx * 2 + 1;
+            if (child + 1 < count && comparer.Compare(items[child], items[child + 1]) > 0)
+            {
+                child++;
+            }
+            if (comparer.Compare(x, items[child]) <= 0)
+            {
+                break;
+            }
+            items[idx] = items[child];
+            idx = child;
+        }
+        items[idx] = x;
+    }
+    private void RemoveAt(int idx)
+    {
+        count--;
+        if (idx == count)
+        {
+            items[idx] = default(T);
+            return;
+        }
+        items[idx] = items[count];
+        items[count] = default(T);
+        SiftDown(idx);
+        if (idx < count && comparer.Compare(items[idx], items[count]) == 0)
+        {
+            SiftUp(idx);
+        }
+    }
+    private void EnsureCapacity(int minCapacity)
+    {
+        if (minCapacity <= items.Length)
+        {
+            return;
+        }
 
-    private void Swim(int k)
-    {
-        while (k > 1 && Compare(k / 2, k) < 0)
+        int newCapacity;
+        if (items.Length < 64)
         {
-            Swap(k, k / 2);
-            k = k / 2;
+            newCapacity = items.Length * 2;
         }
-    }
+        else
+        {
+            newCapacity = items.Length + items.Length / 2;
+        }
 
-    private void Sink(int k)
-    {
-        while (2 * k <= size)
-        {
-            int j = 2 * k;
-            if (j < size && Compare(j, j + 1) < 0) j++;
-            if (Compare(k, j) >= 0) break;
-            Swap(k, j);
-            k = j;
-        }
-    }
-
-    private int Compare(int i, int j)
-    {
-        if (comparator != null)
-        {
-            return comparator(queue[i], queue[j]);
-        }
-        IComparable<T> comp1 = queue[i] as IComparable<T>;
-        if (comp1 != null)
-        {
-            return comp1.CompareTo(queue[j]);
-        }
-        IComparable comp2 = queue[i] as IComparable;
-        if (comp2 != null)
-        {
-            return comp2.CompareTo(queue[j]);
-        }
-        throw new InvalidOperationException("Невозможно сравнить элементы");
-    }
-    private void Swap(int i, int j)
-    {
-        T temp = queue[i];
-        queue[i] = queue[j];
-        queue[j] = temp;
+        Array.Resize(ref items, newCapacity);
     }
 }
-
 class Program
 {
-    static void Main()
+    static void Main(string[] args)
     {
-        Console.WriteLine("=== Тестирование MyPriorityQueue ===");
-        Console.WriteLine("\n1. Тест с целыми числами:");
-        MyPriorityQueue<int> pq1 = new MyPriorityQueue<int>();
-        pq1.Add(5);
-        pq1.Add(1);
-        pq1.Add(10);
-        pq1.Add(3);
+        var queue = new MyPriorityQueue<int>();
+        queue.Add(5);
+        queue.Add(2);
+        queue.Add(8);
+        queue.Offer(1);
+        Console.WriteLine("Размер: " + queue.Size());
+        Console.WriteLine("Первый элемент: " + queue.Peek());
+        Console.WriteLine("Элемент (с исключением): " + queue.Element());
 
-        Console.WriteLine("Размер: " + pq1.Size());
-        Console.WriteLine("Голова: " + pq1.Peek());
+        Console.WriteLine("Содержит 2: " + queue.Contains(2));
+        Console.WriteLine("Содержит все [1,2]: " + queue.ContainsAll(new[] { 1, 2 }));
 
-        Console.WriteLine("Извлекаем все:");
-        while (!pq1.IsEmpty())
+        var array = queue.ToArray();
+        Console.Write("Массив: ");
+        for (int i = 0; i < array.Length; i++)
         {
-            Console.Write(pq1.Poll() + " ");
+            if (i > 0) Console.Write(", ");
+            Console.Write(array[i]);
         }
-
-        Console.WriteLine("\n\n2. Создание из массива:");
-        int[] arr = { 7, 2, 9, 4, 1 };
-        MyPriorityQueue<int> pq2 = new MyPriorityQueue<int>(arr);
-        Console.WriteLine("Массив из очереди: " + string.Join(", ", pq2.ToArray()));
-
-        Console.WriteLine("\n3. С кастомным компаратором:");
-        PriorityQueueComparer<int> reverse = (x, y) => y.CompareTo(x);
-        MyPriorityQueue<int> pq3 = new MyPriorityQueue<int>(5, reverse);
-        pq3.Add(5);
-        pq3.Add(1);
-        pq3.Add(10);
-
-        Console.WriteLine("В обратном порядке:");
-        while (!pq3.IsEmpty())
+        Console.WriteLine();
+        queue.Remove(2);
+        Console.WriteLine("После удаления 2, размер: " + queue.Size());
+        Console.WriteLine("Извлечение элементов:");
+        while (!queue.IsEmpty())
         {
-            Console.Write(pq3.Poll() + " ");
+            Console.WriteLine(queue.Poll());
         }
-
-        Console.WriteLine("\n\n4. Проверка Contains и Remove:");
-        MyPriorityQueue<string> pq4 = new MyPriorityQueue<string>();
-        pq4.Add("яблоко");
-        pq4.Add("банан");
-        pq4.Add("апельсин");
-
-        Console.WriteLine("Есть 'банан'? " + pq4.Contains("банан"));
-        Console.WriteLine("Удаляем 'банан': " + pq4.Remove("банан"));
-        Console.WriteLine("Есть 'банан' теперь? " + pq4.Contains("банан"));
-
-        Console.WriteLine("\n5. Проверка ошибок:");
-        try
-        {
-            MyPriorityQueue<int> pq5 = new MyPriorityQueue<int>(-5);
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine("Поймали ошибку: " + e.Message);
-        }
-        Console.WriteLine("\n=== Тестирование завершено ===");
     }
 }

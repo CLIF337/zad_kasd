@@ -6,3 +6,11 @@ C:\Users\Aleksandr\source\repos\zad6kasd\zad6kasd\obj\Debug\zad6kasd.csproj.Core
 C:\Users\Aleksandr\source\repos\zad6kasd\zad6kasd\obj\Debug\zad6kasd.exe
 C:\Users\Aleksandr\source\repos\zad6kasd\zad6kasd\obj\Debug\zad6kasd.pdb
 C:\Users\Aleksandr\source\repos\zad6kasd\zad6kasd\obj\Debug\zad6kasd.exe.config
+E:\ПРОГА\Задачи\zad6kasd\zad6kasd\bin\Debug\zad6kasd.exe.config
+E:\ПРОГА\Задачи\zad6kasd\zad6kasd\bin\Debug\zad6kasd.exe
+E:\ПРОГА\Задачи\zad6kasd\zad6kasd\bin\Debug\zad6kasd.pdb
+E:\ПРОГА\Задачи\zad6kasd\zad6kasd\obj\Debug\zad6kasd.csproj.AssemblyReference.cache
+E:\ПРОГА\Задачи\zad6kasd\zad6kasd\obj\Debug\zad6kasd.exe.config
+E:\ПРОГА\Задачи\zad6kasd\zad6kasd\obj\Debug\zad6kasd.csproj.CoreCompileInputs.cache
+E:\ПРОГА\Задачи\zad6kasd\zad6kasd\obj\Debug\zad6kasd.exe
+E:\ПРОГА\Задачи\zad6kasd\zad6kasd\obj\Debug\zad6kasd.pdb

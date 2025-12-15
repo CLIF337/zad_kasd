@@ -1,0 +1,8 @@
+C:\Users\Aleksandr\source\repos\7kasd\7kasd\bin\Debug\7kasd.exe.config
+C:\Users\Aleksandr\source\repos\7kasd\7kasd\bin\Debug\7kasd.exe
+C:\Users\Aleksandr\source\repos\7kasd\7kasd\bin\Debug\7kasd.pdb
+C:\Users\Aleksandr\source\repos\7kasd\7kasd\obj\Debug\7kasd.csproj.AssemblyReference.cache
+C:\Users\Aleksandr\source\repos\7kasd\7kasd\obj\Debug\7kasd.csproj.CoreCompileInputs.cache
+C:\Users\Aleksandr\source\repos\7kasd\7kasd\obj\Debug\7kasd.exe
+C:\Users\Aleksandr\source\repos\7kasd\7kasd\obj\Debug\7kasd.pdb
+C:\Users\Aleksandr\source\repos\7kasd\7kasd\obj\Debug\7kasd.exe.config

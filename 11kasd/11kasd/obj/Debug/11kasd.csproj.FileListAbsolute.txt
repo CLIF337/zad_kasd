@@ -1,0 +1,7 @@
+C:\Users\Aleksandr\source\repos\11kasd\11kasd\obj\Debug\11kasd.csproj.AssemblyReference.cache
+C:\Users\Aleksandr\source\repos\11kasd\11kasd\obj\Debug\11kasd.csproj.CoreCompileInputs.cache
+C:\Users\Aleksandr\source\repos\11kasd\11kasd\bin\Debug\11kasd.exe.config
+C:\Users\Aleksandr\source\repos\11kasd\11kasd\bin\Debug\11kasd.exe
+C:\Users\Aleksandr\source\repos\11kasd\11kasd\bin\Debug\11kasd.pdb
+C:\Users\Aleksandr\source\repos\11kasd\11kasd\obj\Debug\11kasd.exe
+C:\Users\Aleksandr\source\repos\11kasd\11kasd\obj\Debug\11kasd.pdb

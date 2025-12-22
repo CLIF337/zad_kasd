@@ -1,0 +1,8 @@
+C:\Users\Aleksandr\source\repos\9kasd\9kasd\bin\Debug\9kasd.exe.config
+C:\Users\Aleksandr\source\repos\9kasd\9kasd\bin\Debug\9kasd.exe
+C:\Users\Aleksandr\source\repos\9kasd\9kasd\bin\Debug\9kasd.pdb
+C:\Users\Aleksandr\source\repos\9kasd\9kasd\obj\Debug\9kasd.csproj.AssemblyReference.cache
+C:\Users\Aleksandr\source\repos\9kasd\9kasd\obj\Debug\9kasd.csproj.CoreCompileInputs.cache
+C:\Users\Aleksandr\source\repos\9kasd\9kasd\obj\Debug\9kasd.exe
+C:\Users\Aleksandr\source\repos\9kasd\9kasd\obj\Debug\9kasd.pdb
+C:\Users\Aleksandr\source\repos\9kasd\9kasd\obj\Debug\9kasd.exe.config

@@ -1,0 +1,7 @@
+C:\Users\Aleksandr\source\repos\10kasd\10kasd\bin\Debug\10kasd.exe.config
+C:\Users\Aleksandr\source\repos\10kasd\10kasd\bin\Debug\10kasd.exe
+C:\Users\Aleksandr\source\repos\10kasd\10kasd\bin\Debug\10kasd.pdb
+C:\Users\Aleksandr\source\repos\10kasd\10kasd\obj\Debug\10kasd.csproj.AssemblyReference.cache
+C:\Users\Aleksandr\source\repos\10kasd\10kasd\obj\Debug\10kasd.csproj.CoreCompileInputs.cache
+C:\Users\Aleksandr\source\repos\10kasd\10kasd\obj\Debug\10kasd.exe
+C:\Users\Aleksandr\source\repos\10kasd\10kasd\obj\Debug\10kasd.pdb

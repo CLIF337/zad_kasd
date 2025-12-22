@@ -1,0 +1,5 @@
+<html><head><title>Страница</title></head>
+<body><H1>Заголовок</h1>
+<div>Контент</DIV>
+<p>Текст</p>
+</body></HTML>

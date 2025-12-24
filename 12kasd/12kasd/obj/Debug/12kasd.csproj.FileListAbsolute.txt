@@ -1,0 +1,7 @@
+C:\Users\Aleksandr\source\repos\12kasd\12kasd\obj\Debug\12kasd.csproj.AssemblyReference.cache
+C:\Users\Aleksandr\source\repos\12kasd\12kasd\obj\Debug\12kasd.csproj.CoreCompileInputs.cache
+C:\Users\Aleksandr\source\repos\12kasd\12kasd\bin\Debug\12kasd.exe.config
+C:\Users\Aleksandr\source\repos\12kasd\12kasd\bin\Debug\12kasd.exe
+C:\Users\Aleksandr\source\repos\12kasd\12kasd\bin\Debug\12kasd.pdb
+C:\Users\Aleksandr\source\repos\12kasd\12kasd\obj\Debug\12kasd.exe
+C:\Users\Aleksandr\source\repos\12kasd\12kasd\obj\Debug\12kasd.pdb
